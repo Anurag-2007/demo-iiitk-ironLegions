@@ -1,5 +1,3 @@
-Here's a clean, structured `README.md` draft based on your CuratEd presentation — perfect for GitHub or your portfolio site:
-
 ---
 
 # 📚 CuratEd: Smarter Learning, Faster Progress
