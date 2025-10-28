@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -67,7 +68,18 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    public void addLoadingBar(){
+        ViewGroup viewGroup = findViewById(R.id.result);
+        LayoutInflater layoutInflater = LayoutInflater.from(this);
+        View itemView = layoutInflater.inflate(R.layout.loading_circle_frag, viewGroup, false);
+        viewGroup.addView(itemView);
+
+    }
+
     public void search(String query){
+        ViewGroup viewGroup = findViewById(R.id.result);
+        viewGroup.removeAllViews();
+        addLoadingBar();
         //Implement all algo after yt api
         GeminiHelper geminiHelper = new GeminiHelper();
         geminiHelper.getTopVideos(this, query, new GeminiHelper.VideoCallback() {
@@ -85,8 +97,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void iterative_add(List<GeminiHelper.YouTubeVideo> videoResults){
+        ViewGroup viewGroup = findViewById(R.id.result);
+        viewGroup.removeAllViews();
         for (GeminiHelper.YouTubeVideo v:videoResults){
-            add_entry(null,v.title,String.valueOf(videoResults.indexOf(v)),Float.toString(((float) v.likes /v.views)*60),v.id);
+            add_entry(null,v.title,String.valueOf(videoResults.indexOf(v)+1)+".",Float.toString(((float) v.likes /v.views)*60),v.id);
         }
     }
     public void add_entry(Drawable thumbnail, String title, String duration, String rating,String id){
