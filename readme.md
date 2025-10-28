@@ -6,7 +6,7 @@ Here's a clean, structured `README.md` draft based on your CuratEd presentation 
 
 **Team:** IronLegions  
 **Mission:** Find the best learning videos. Learn faster.
-**Presentation:** [Click-Here](https://github.com/Anurag-2007/demo-iiitk-ironLegions/blob/master/CuratEd.pptx)
+  **Presentation:** [Click-Here](https://github.com/Anurag-2007/demo-iiitk-ironLegions/blob/master/CuratEd.pptx)
 ---
 
 ## 🚨 The Problem: Information Overload in Online Learning
