@@ -1,6 +1,8 @@
 package com.ui.two.udh_r1;
 
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -17,6 +19,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+
+import org.w3c.dom.Text;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -66,40 +70,55 @@ public class MainActivity extends AppCompatActivity {
     public void search(String query){
         //Implement all algo after yt api
         GeminiHelper geminiHelper = new GeminiHelper();
-        final ArrayList<GeminiHelper.VideoResult>[] videoResults = new ArrayList[1];
-
-        new Thread(new Runnable() {
+        geminiHelper.getTopVideos(this, query, new GeminiHelper.VideoCallback() {
             @Override
-            public void run() {
-                videoResults[0] = (ArrayList<GeminiHelper.VideoResult>) geminiHelper.search_gemini(new String[]{query});
+            public void onSuccess(List<GeminiHelper.YouTubeVideo> videos) {
+                iterative_add(videos);
             }
-        }).start();
+
+            @Override
+            public void onError(Exception e) {
+                Log.e("ERR",e.toString());
+            }
+        });
 
     }
 
-    public void add_entry(Drawable thumbnail, String title, String duration, String rating){
+    public void iterative_add(List<GeminiHelper.YouTubeVideo> videoResults){
+        for (GeminiHelper.YouTubeVideo v:videoResults){
+            add_entry(null,v.title,String.valueOf(videoResults.indexOf(v)),Float.toString(((float) v.likes /v.views)*60),v.id);
+        }
+    }
+    public void add_entry(Drawable thumbnail, String title, String duration, String rating,String id){
         LinearLayout container = findViewById(R.id.result);
 
-// Inflate the separate layout
+        // Inflate the separate layout
         LayoutInflater inflater = LayoutInflater.from(this);
         View itemView = inflater.inflate(R.layout.entry, container, false);
 
-// Update views inside the inflated layout
+        // Update views inside the inflated layout
         TextView title_holder = itemView.findViewById(R.id.title);
-        TextView duration_holder = itemView.findViewById(R.id.duration);
         TextView rating_holder = itemView.findViewById(R.id.rating);
-        ImageView thumbnail_holder = itemView.findViewById(R.id.thumbnail);
+        TextView textView = itemView.findViewById(R.id.s_no);
 
         title_holder.setText(title);
-        duration_holder.setText(duration);
         rating_holder.setText(rating);
-        thumbnail_holder.setImageDrawable(thumbnail);// or use Glide/Picasso
-
-// Add the inflated layout to the container
+        textView.setText(duration);
+        container.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                play_vid(id);
+            }
+        });
+        // Add the inflated layout to the container
         container.addView(itemView);
     }
 
-    public void parse_entry(){}
+    public void play_vid(String id){
+        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.youtube.com/watch?v="+id));
+        intent.putExtra("force_fullscreen",true);
+        startActivity(intent);
+    }
 
 
 }

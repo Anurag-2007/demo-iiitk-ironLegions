@@ -2,15 +2,15 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal"
     android:layout_width="match_parent"
-    android:layout_height="100dp">
+    android:layout_height="wrap_content">
 
-    <ImageView
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:layout_margin="10dp"
-        android:id="@+id/thumbnail"/>
-
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/s_no"
+        />
     <LinearLayout
+        android:layout_marginStart="15dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
@@ -22,29 +22,19 @@
             android:layout_margin="5dp"
             android:id="@+id/title"
             android:text="@string/app_name"/>
+
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="1:00"
-            android:id="@+id/duration"
-            android:textSize="12sp"
-            android:layout_margin="5dp"/>
-
+            android:id="@+id/rating"
+            android:textSize="12.5sp"
+            android:text="1.5"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="20dp"
+            android:drawableEnd="@drawable/baseline_star_24"
+            />
     </LinearLayout>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/rating"
-        android:text="1.5"
-        android:layout_gravity="center_vertical"
-        android:layout_marginStart="20dp"
-        />
-
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@drawable/baseline_star_24"
-        android:layout_gravity="center_vertical"/>
 
 </LinearLayout>
