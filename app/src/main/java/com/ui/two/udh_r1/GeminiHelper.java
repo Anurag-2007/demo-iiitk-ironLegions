@@ -20,7 +20,7 @@ import java.util.List;
 
 public class GeminiHelper {
 
-    private static final String API_KEY = "AIzaSyDB8__yKvqlxFITMrB-ntBVCCIWWC16jak"; // Replace with your actual YouTube Data API key
+    private static final String API_KEY = "AIzaSyDB8__yKvqlxFITMrB-ntBVCCIWWC16jak";
     private static final String SEARCH_URL = "https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=20&q=%s&type=video&key=%s";
     private static final String VIDEOS_URL = "https://www.googleapis.com/youtube/v3/videos?part=statistics,contentDetails,snippet&id=%s&key=%s";
 
@@ -35,7 +35,7 @@ public class GeminiHelper {
     public void getTopVideos(Context context, String query, final VideoCallback callback) {
         RequestQueue queue = Volley.newRequestQueue(context);
 
-        // Step 1: Search for videos
+
         String searchUrl = String.format(SEARCH_URL, query, API_KEY);
         JsonObjectRequest searchRequest = new JsonObjectRequest(Request.Method.GET, searchUrl, null,
                 new Response.Listener<JSONObject>() {
@@ -58,7 +58,7 @@ public class GeminiHelper {
                                 return;
                             }
 
-                            // Step 2: Fetch video details
+
                             String videoIds = idBuilder.toString();
                             String videosUrl = String.format(VIDEOS_URL, videoIds, API_KEY);
                             JsonObjectRequest videosRequest = new JsonObjectRequest(Request.Method.GET, videosUrl, null,
@@ -83,7 +83,6 @@ public class GeminiHelper {
 
                                                     String videoId = item.getString("id");
                                                     double ratio = viewCount > 0 ? (double) likeCount / viewCount : 0.0;
-
                                                     videos.add(new YouTubeVideo(title, videoId, likeCount, viewCount,
                                                             "", thumbnail, ratio));
                                                 }
@@ -96,7 +95,7 @@ public class GeminiHelper {
                                                     }
                                                 });
 
-                                                // Get top 5 (or fewer if less available)
+                                                // Get top 15 (or fewer if less available)
                                                 List<YouTubeVideo> topVideos = videos.subList(0, Math.min(15, videos.size()));
                                                 callback.onSuccess(topVideos);
                                             } catch (Exception e) {
@@ -136,7 +135,6 @@ public class GeminiHelper {
         public final String id;
         public final long likes;
         public final long views;
-        public final String duration; // ISO 8601 format, e.g., "PT1H2M3S"
         public final String thumbnail;
         public final double ratio; // like/view ratio
 
@@ -146,7 +144,6 @@ public class GeminiHelper {
             this.id = id;
             this.likes = likes;
             this.views = views;
-            this.duration = duration;
             this.thumbnail = thumbnail;
             this.ratio = ratio;
         }
